@@ -12,7 +12,7 @@ import { useIsMutating } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import 'todomvc-app-css/index.css';
 import 'todomvc-common/base.css';
-import { inferQueryOutput, trpc, transformer } from '../utils/trpc';
+import { inferQueryOutput, trpc, transformer } from '../lib/trpc';
 import { appRouter, createContext } from './api/trpc/[trpc]';
 type Task = inferQueryOutput<'todos.all'>[number];
 

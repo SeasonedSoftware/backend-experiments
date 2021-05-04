@@ -2,6 +2,9 @@
   "name": "@examples/todo-web",
   "version": "6.1.1",
   "private": true,
+  "prisma": {
+    "schema": "domain/db/schema.prisma"
+  },
   "scripts": {
     "dx:next": "prisma generate && next dev",
     "dx:prisma-studio": "prisma studio",
