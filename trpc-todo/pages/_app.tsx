@@ -1,6 +1,6 @@
 import { withTRPC } from '@trpc/next';
 import { AppType } from 'next/dist/next-server/lib/utils';
-import { transformer } from '../lib/trpc';
+import { transformer } from '../api/trpc';
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return <Component {...pageProps} />;
