@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { createRouter } from '../pages/api/trpc/[trpc]';
 
+// TODO: Should we decouple this router definition from Next.JS adapter and perhaps define it as a data structure?
 export const todoRouter = createRouter()
   .query('all', {
     async resolve({ ctx }) {
