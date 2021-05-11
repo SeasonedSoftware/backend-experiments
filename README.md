@@ -21,3 +21,10 @@
 * Packages can be found at https://atmospherejs.meteor.com/
 * Packages related to [PostgreSQL](https://github.com/numtel/meteor-pg/) [are](https://github.com/EndyKaufman/meteor-postgres/) [all](https://github.com/storeness/meteor-postgres/) [abandonware](https://github.com/meteor-stream/meteor-postgres/)[.](https://github.com/numtel/meteor-pg-server/)
 * The official documentation does not mention SQL databases neither GraphQL, although [this blog post](https://blog.meteor.com/reactive-graphql-d78d307bbcbb) mentions Apollo.
+
+## PostgREST
+
+* Exposes too much information about the database implementation.
+* Remove some control from the main code-base, so the developer would have to know details about PostgREST interface and perhaps even some implementation details. Filtering data according to which user is logged in comes to mind.
+* Any sophisticated use of user privileges in the PostgREST world can get quite deep in the database role system, which is greatly limited on some PostgreSQL as a service providers (Heroku I'm looking at you).
+* Data validation and input parsing is relegated entirely to the database. This could work in a 100% event sourced system, but in this case the stack is defining the architecture :(
