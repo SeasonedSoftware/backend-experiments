@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import startCase from 'lodash/startCase'
-import { clsx } from '../lib/utils'
+import { clsx } from 'lib/utils'
 
 interface ILinkProps {
   filter: string

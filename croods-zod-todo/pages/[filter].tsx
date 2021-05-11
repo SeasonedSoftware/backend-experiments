@@ -5,18 +5,18 @@ import {
 } from 'next'
 import Head from 'next/head'
 import identity from 'lodash/identity'
-import ListItem from '../components/list-item'
-import FooterInfo from '../components/footer-info'
-import ListFooter from '../components/list-footer'
-import Form from '../components/form'
+import ListItem from 'components/list-item'
+import FooterInfo from 'components/footer-info'
+import ListFooter from 'components/list-footer'
+import Form from 'components/form'
 import { useCroods, useHydrate } from 'croods'
 
 import 'todomvc-app-css/index.css'
 import 'todomvc-common/base.css'
-import { Task } from '../domain/resources/task'
+import { Task } from 'domain/resources/task'
 import { CroodsTuple } from 'croods/dist/types/typeDeclarations'
 
-const baseUrl = 'http://localhost:3000/api'
+const baseUrl = 'http://localhost:3000/api/croods'
 const FILTERS = ['all', 'active', 'completed']
 const croodsConfig = {
   baseUrl,

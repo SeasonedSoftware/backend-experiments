@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { useClickOutside } from '../lib/hooks'
-import { clsx } from '../lib/utils'
-import { Task } from '../domain/resources/task'
+import { useClickOutside } from 'lib/hooks'
+import { clsx } from 'lib/utils'
+import { Task } from 'domain/resources/task'
 
 interface IProps {
   task: Task

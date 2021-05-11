@@ -1,4 +1,4 @@
-import { Task } from '../domain/resources/task'
+import { Task } from 'domain/resources/task'
 
 export default function Form({ addTask }: { addTask(t: Partial<Task>): void }) {
   return (
