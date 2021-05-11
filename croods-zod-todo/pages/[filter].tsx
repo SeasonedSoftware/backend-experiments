@@ -50,7 +50,7 @@ export default function TodosPage({
   }
 
   const clearCompleted = async () => {
-    await fetch(`${baseUrl}/clear-completed`, { method: 'POST' })
+    await fetch(`${baseUrl}/tasks/clear-completed`, { method: 'POST' })
     fetchTasks({})()
   }
 
