@@ -8,7 +8,7 @@ const makeHandler = ({parser, action}) => async (req: NextApiRequest, res: NextA
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const [namespace, requestedAction] = req.query.namespace as string[]
+  const [namespace, requestedAction] = req.query.actionPath as string[]
 
   const actionName = requestedAction ||
     (req.method == 'POST' ? 'create' : 'list')
