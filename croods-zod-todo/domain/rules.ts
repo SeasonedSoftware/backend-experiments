@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import type { ZodTypeAny } from 'zod'
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -7,11 +8,19 @@ const taskCreateParser = z.object({ text: z.string() })
 const taskDeleteParser = z.object({ id: z.string() })
 const taskUpdateParser = z.object({ id: z.string(), text: z.string().optional(), completed: z.boolean().optional() })
 
-export const tasks : Record<string, any> = {
+type Action = {
+  mutation: boolean,
+  parser?: ZodTypeAny,
+  action: (input: any) => any
+}
+
+type Actions = Record<string, Action>
+
+export const tasks: Actions = {
   post: {
     mutation: true,
-    parser: taskCreateParser.parse,
-    action: (input : z.infer<typeof taskCreateParser>) => prisma.task.create({ data: input })
+    parser: taskCreateParser,
+    action: (input: z.infer<typeof taskCreateParser>) => prisma.task.create({ data: input })
   },
   get: {
     mutation: false,
@@ -19,15 +28,15 @@ export const tasks : Record<string, any> = {
   },
   delete: {
     mutation: true,
-    parser: taskDeleteParser.parse,
-    action: (input : z.infer<typeof taskDeleteParser>) => prisma.task.delete({
+    parser: taskDeleteParser,
+    action: (input: z.infer<typeof taskDeleteParser>) => prisma.task.delete({
       where: input,
     })
   },
   put: {
     mutation: true,
-    parser: taskUpdateParser.parse,
-    action: (input : z.infer<typeof taskUpdateParser>) => prisma.task.update({
+    parser: taskUpdateParser,
+    action: (input: z.infer<typeof taskUpdateParser>) => prisma.task.update({
       where: { id: input.id },
       data: input
     })
@@ -36,12 +45,12 @@ export const tasks : Record<string, any> = {
     mutation: true,
     action: async () => {
       await prisma.task.deleteMany({
-              where: { completed: true },
-            })
+        where: { completed: true },
+      })
       prisma.task.findMany()
     }
   }
 }
 
-const rules : Record<string, any> = { tasks }
-export default  rules
+const rules: Record<string, Actions> = { tasks }
+export default rules
