@@ -1,10 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import rules from 'domain/rules'
+import rules, { Action } from 'domain/rules'
 import defaults from 'lodash/defaults'
 
-const makeHandler = ({ mutation, parser, action }) => async (input, req: NextApiRequest, res: NextApiResponse) => {
+const makeHandler = ({ mutation, parser, action }: Action) => async (input: any, req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET' && mutation) {
-    return res.status(404)
+    res.setHeader('Allow', 'POST, PATCH, PUT, DELETE')
+    return res.status(405).end()
   }
   const parsedInput = parser && parser.parse(input)
   const taskResult = await action(parsedInput)
