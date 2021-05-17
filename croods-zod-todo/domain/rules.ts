@@ -9,19 +9,23 @@ const taskUpdateParser = z.object({ id: z.string(), text: z.string().optional(),
 
 export const tasks : Record<string, any> = {
   post: {
+    mutation: true,
     parser: taskCreateParser.parse,
     action: (input : z.infer<typeof taskCreateParser>) => prisma.task.create({ data: input })
   },
   get: {
+    mutation: false,
     action: prisma.task.findMany
   },
   delete: {
+    mutation: true,
     parser: taskDeleteParser.parse,
     action: (input : z.infer<typeof taskDeleteParser>) => prisma.task.delete({
       where: input,
     })
   },
   put: {
+    mutation: true,
     parser: taskUpdateParser.parse,
     action: (input : z.infer<typeof taskUpdateParser>) => prisma.task.update({
       where: { id: input.id },
@@ -29,6 +33,7 @@ export const tasks : Record<string, any> = {
     })
   },
   "clear-completed": {
+    mutation: true,
     action: async () => {
       await prisma.task.deleteMany({
               where: { completed: true },
