@@ -28,3 +28,10 @@
 * Remove some control from the main code-base, so the developer would have to know details about PostgREST interface and perhaps even some implementation details. Filtering data according to which user is logged in comes to mind.
 * Any sophisticated use of user privileges in the PostgREST world can get quite deep in the database role system, which is greatly limited on some PostgreSQL as a service providers (Heroku I'm looking at you).
 * Data validation and input parsing is relegated entirely to the database. This could work in a 100% event sourced system, but in this case the stack is defining the architecture :(
+
+## Deno (through Aleph.js)
+
+* It seems to get a lot of things right from the past node.js mistakes (as expected)
+* Native typescript rocks!
+* Still not ripe for every scenario, several libraries are still in an experimental stage or dead
+* It would require a lot of good will to own the stack in case some libraries get dropped
