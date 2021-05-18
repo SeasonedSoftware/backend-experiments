@@ -1,11 +1,39 @@
 // Require the framework and instantiate it
 import fastify from 'fastify'
 import fastifyPostgres from 'fastify-postgres'
+import createSubscriber from "pg-listen"
+
+const databaseURL: string = 'postgres://postgres@localhost/postgres'
+
+// Accepts the same connection config object that the "pg" package would take
+const subscriber = createSubscriber({ connectionString: databaseURL })
+
+subscriber.notifications.on("my-channel", (payload) => {
+  // Payload as passed to subscriber.notify() (see below)
+  console.log("Received notification in 'my-channel':", payload)
+})
+
+subscriber.events.on("error", (error) => {
+  console.error("Fatal database connection error:", error)
+  process.exit(1)
+})
+
+process.on("exit", () => {
+  console.log('Closing database notificationlistener...')
+  subscriber.close()
+  console.log('closed')
+})
+
+const connectPgListener = async () => {
+  await subscriber.connect()
+  await subscriber.listenTo("my-channel")
+}
+
 
 const server = fastify({ logger: true })
 
 server.register(fastifyPostgres, {
-  connectionString: 'postgres://postgres@localhost/postgres'
+  connectionString: databaseURL
 })
 
 // Declare a route
@@ -29,8 +57,10 @@ const start = async () => {
   }
 }
 
-console.log('>>>>>>>>>>> TEST 1')
+console.log('Connecting database listener...')
+connectPgListener()
 
+console.log('Starting http interface...')
 start()
 
-console.log('>>>>>>>>>>> TEST 2')
+console.log('Server is running')

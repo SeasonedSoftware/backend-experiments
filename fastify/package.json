@@ -6,7 +6,8 @@
   "dependencies": {
     "fastify": "^3.9.2",
     "fastify-postgres": "^3.3.0",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "pg-listen": "^1.7.0"
   },
   "devDependencies": {
     "@types/node": "^15.3.0",
