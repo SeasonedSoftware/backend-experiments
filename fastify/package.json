@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "daemon": "tsc || node dist/server.js",
     "build": "tsc"
   },
   "dependencies": {
