@@ -1,0 +1,23 @@
+{
+  "name": "jobs",
+  "version": "1.0.0",
+  "prisma": {
+    "schema": "../domain-logic/db/schema.prisma"
+  },
+  "scripts": {
+    "daemon": "tsc || node dist/server.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "domain-logic": "./domain-logic",
+    "fastify": "^3.9.2",
+    "fastify-postgres": "^3.3.0",
+    "pg": "^8.5.1",
+    "pg-listen": "^1.7.0",
+    "prisma": "^2.22.1"
+  },
+  "devDependencies": {
+    "@types/node": "^15.3.0",
+    "typescript": "^4.2.4"
+  }
+}

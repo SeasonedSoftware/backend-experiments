@@ -1,0 +1,23 @@
+{
+  "name": "monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Demo application showing how to share code between NextJS projects in a monorepo",
+  "workspaces": [
+    "ui",
+    "domain-logic",
+    "jobs"
+  ],
+  "scripts": {
+    "dev": "cd ui && yarn dx:next",
+    "jobs": "cd jobs && yarn daemon"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "15.0.2",
+    "@types/react": "17.0.5",
+    "next-transpile-modules": "^7.1.1",
+    "typescript": "4.2.4"
+  }
+}
