@@ -37,7 +37,8 @@
     "todomvc-app-css": "2.4.1",
     "todomvc-common": "1.0.5",
     "yarn": "^1.22.10",
-    "zod": "^3.0.0-beta.1"
+    "zod": "^3.0.0-beta.1",
+    "domain-logic": "./domain-logic"
   },
   "devDependencies": {
     "@types/jest": "26.0.23",

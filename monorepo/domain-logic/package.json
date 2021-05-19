@@ -7,7 +7,7 @@
     "schema": "db/schema.prisma"
   },
   "scripts": {
-    "build": "prisma generate && yarn migrate && next build",
+    "build": "prisma generate && yarn migrate && tsc",
     "studio": "prisma studio",
     "migrate-dev": "prisma migrate dev --preview-feature",
     "migrate": "prisma migrate deploy --preview-feature",

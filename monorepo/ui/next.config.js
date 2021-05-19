@@ -1,3 +1,11 @@
-const withTM = require('next-transpile-modules')(['domain-logic'])
-
-module.exports = withTM()
+module.exports = {
+    async redirects() {
+        return [
+            {
+                source: '/',
+                destination: '/all',
+                permanent: false,
+            },
+        ]
+    },
+}
