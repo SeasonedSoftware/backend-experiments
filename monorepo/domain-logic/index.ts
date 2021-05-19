@@ -57,7 +57,7 @@ export type DomainActions = Record<string, Actions>
 const rules: DomainActions = { tasks }
 
 const findActionInDomain = (rules: DomainActions) => (namespace: string, actionName: string) =>
-  rules[namespace] && rules[namespace][actionName]
+  (rules[namespace] && rules[namespace][actionName]) as Action | undefined
 
 export const findAction = findActionInDomain(rules)
 

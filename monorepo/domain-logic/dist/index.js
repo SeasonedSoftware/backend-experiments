@@ -38,6 +38,6 @@ exports.tasks = {
     })
 };
 const rules = { tasks: exports.tasks };
-const findActionInDomain = (rules) => (namespace, actionName) => rules[namespace] && rules[namespace][actionName];
+const findActionInDomain = (rules) => (namespace, actionName) => (rules[namespace] && rules[namespace][actionName]);
 exports.findAction = findActionInDomain(rules);
 exports.default = rules;

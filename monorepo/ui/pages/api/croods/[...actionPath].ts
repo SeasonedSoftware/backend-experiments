@@ -15,8 +15,8 @@ const makeHandler = ({ mutation, parser, action }: Action) => async (input: any,
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const [namespace, requestedAction] = req.query.actionPath as string[]
-  const maybeRequestedAction: Action | undefined = findAction(namespace, requestedAction)
-  const maybeResolvedAction: Action | undefined = maybeRequestedAction || findAction(namespace, req.method!.toLowerCase())
+  const maybeRequestedAction = findAction(namespace, requestedAction)
+  const maybeResolvedAction = maybeRequestedAction || findAction(namespace, req.method!.toLowerCase())
 
   if (isNil(maybeResolvedAction)) {
     return res.status(404).end()
