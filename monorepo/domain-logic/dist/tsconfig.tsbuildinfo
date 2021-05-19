@@ -606,14 +606,14 @@
         "signature": "0714e2046df66c0e93c3330d30dbc0565b3e8cd3ee302cf99e4ede6220e5fec8",
         "affectsGlobalScope": true
       },
-      "../../node_modules/@types/lodash/find.d.ts": {
-        "version": "40e75f731b509a5bef920ace57eaf33d02be2e2e9dfbec208a67d14680ec3719",
-        "signature": "40e75f731b509a5bef920ace57eaf33d02be2e2e9dfbec208a67d14680ec3719",
+      "../../node_modules/@types/lodash/has.d.ts": {
+        "version": "4a4eff67dc5860f4b9302e395e3ad2be716d08ed838f5540e32c8ac7b1b4920b",
+        "signature": "4a4eff67dc5860f4b9302e395e3ad2be716d08ed838f5540e32c8ac7b1b4920b",
         "affectsGlobalScope": false
       },
       "../index.ts": {
-        "version": "e7dbc6b21682d2900f8e64b903254877012f0e4216a2a6f75e2241cfd97e7094",
-        "signature": "01261516e01b9f1aa0852b09621a6049652d42162c84948d2a9713fba35f2670",
+        "version": "671cf59dd17902dce99f1fd82de8892d90554ec679b7fd53e64985ce87b969a5",
+        "signature": "ec64ed2649b9a3d928a8fd8599786809c1994bad61695cfec5c7ac03ab2113da",
         "affectsGlobalScope": false
       },
       "../resources/task.ts": {
@@ -792,7 +792,7 @@
     "referencedMap": {
       "../index.ts": [
         "../../node_modules/@prisma/client/index.d.ts",
-        "../../node_modules/@types/lodash/find.d.ts",
+        "../../node_modules/@types/lodash/has.d.ts",
         "../../node_modules/zod/lib/index.d.ts"
       ],
       "../resources/task.ts": [
@@ -1010,7 +1010,7 @@
         "../../node_modules/@types/lodash/common/string.d.ts",
         "../../node_modules/@types/lodash/index.d.ts"
       ],
-      "../../node_modules/@types/lodash/find.d.ts": [
+      "../../node_modules/@types/lodash/has.d.ts": [
         "../../node_modules/@types/lodash/index.d.ts"
       ],
       "../../node_modules/@types/lodash/index.d.ts": [
@@ -1495,7 +1495,7 @@
         "../../node_modules/@types/lodash/common/string.d.ts",
         "../../node_modules/@types/lodash/index.d.ts"
       ],
-      "../../node_modules/@types/lodash/find.d.ts": [
+      "../../node_modules/@types/lodash/has.d.ts": [
         "../../node_modules/@types/lodash/index.d.ts"
       ],
       "../../node_modules/@types/lodash/index.d.ts": [
@@ -1790,7 +1790,7 @@
       "../../node_modules/@types/lodash/common/seq.d.ts",
       "../../node_modules/@types/lodash/common/string.d.ts",
       "../../node_modules/@types/lodash/common/util.d.ts",
-      "../../node_modules/@types/lodash/find.d.ts",
+      "../../node_modules/@types/lodash/has.d.ts",
       "../../node_modules/@types/lodash/index.d.ts",
       "../../node_modules/@types/node/assert.d.ts",
       "../../node_modules/@types/node/assert/strict.d.ts",

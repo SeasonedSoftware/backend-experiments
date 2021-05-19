@@ -1,12 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAction = exports.tasks = void 0;
+exports.findAction = exports.tasks = exports.error = exports.success = exports.onResult = void 0;
 const zod_1 = require("zod");
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const taskCreateParser = zod_1.z.object({ text: zod_1.z.string() });
 const taskDeleteParser = zod_1.z.object({ id: zod_1.z.string() });
 const taskUpdateParser = zod_1.z.object({ id: zod_1.z.string(), text: zod_1.z.string().optional(), completed: zod_1.z.boolean().optional() });
+const onResult = (onSuccess, onError, r) => {
+    console.log({ r });
+    return (r.success ? onSuccess(r.data) : onError(r.errors));
+};
+exports.onResult = onResult;
+const success = (r) => ({ success: true, data: r });
+exports.success = success;
+const error = (r) => ({ success: false, errors: r });
+exports.error = error;
 const query = (action, parser) => ({
     mutation: false,
     parser,
@@ -18,23 +27,24 @@ const mutation = (action, parser) => ({
     action
 });
 exports.tasks = {
-    "post": mutation((input) => prisma.task.create({ data: input }), taskCreateParser),
-    "get": query(prisma.task.findMany),
-    "delete": mutation((input) => prisma.task.delete({
+    "post": mutation(async (input) => exports.success(await prisma.task.create({ data: input })), taskCreateParser),
+    "get": query(async () => exports.success(await prisma.task.findMany())),
+    "delete": mutation(async (input) => exports.success(await prisma.task.delete({
         where: input,
-    }), taskDeleteParser),
-    "put": mutation((input) => prisma.task.update({
+    })), taskDeleteParser),
+    "put": mutation(async (input) => exports.success(await prisma.task.update({
         where: { id: input.id },
         data: input
-    }), taskUpdateParser),
+    })), taskUpdateParser),
     "send-completed-notifications": query((input) => {
         console.log({ hello: "world" });
+        return exports.success(null);
     }),
     "clear-completed": mutation(async () => {
         await prisma.task.deleteMany({
             where: { completed: true },
         });
-        prisma.task.findMany();
+        return exports.success(prisma.task.findMany());
     })
 };
 const rules = { tasks: exports.tasks };

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import rules, { Action, findAction } from 'domain-logic'
+import { Action, findAction, onResult } from 'domain-logic'
 import defaults from 'lodash/defaults'
 import isNil from 'lodash/isNil'
 
@@ -10,7 +10,12 @@ const makeHandler = ({ mutation, parser, action }: Action) => async (input: any,
   }
   const parsedInput = parser && parser.parse(input)
   const taskResult = await action(parsedInput)
-  return res.status(200).json(taskResult)
+  console.log({ taskResult })
+  return onResult(
+    (data) => res.status(200).json(data),
+    (errors) => res.status(400).json(errors),
+    taskResult
+  )
 }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
