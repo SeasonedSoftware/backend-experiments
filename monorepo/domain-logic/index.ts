@@ -10,56 +10,55 @@ const taskDeleteParser = z.object({ id: z.string() })
 const taskUpdateParser = z.object({ id: z.string(), text: z.string().optional(), completed: z.boolean().optional() })
 
 export type Action = {
-  name: string,
   mutation: boolean,
   parser?: ZodTypeAny,
   action: (input: any) => any
 }
 
-const query = (name: string, action: (input: any) => any, parser?: ZodTypeAny) =>
+export type Actions = Record<string, Action>
+
+const query = (action: (input: any) => any, parser?: ZodTypeAny) =>
 ({
-  name,
   mutation: false,
   parser,
   action
 })
 
-const mutation = (name: string, action: (input: any) => any, parser?: ZodTypeAny) =>
+const mutation = (action: (input: any) => any, parser?: ZodTypeAny) =>
 ({
-  name,
   mutation: true,
   parser,
   action
 })
 
-export const tasks: Action[] = [
-  mutation("post", (input: z.infer<typeof taskCreateParser>) => prisma.task.create({ data: input }), taskCreateParser),
-  query("get", prisma.task.findMany),
-  mutation("delete", (input: z.infer<typeof taskDeleteParser>) => prisma.task.delete({
+export const tasks: Actions = {
+  "post": mutation((input: z.infer<typeof taskCreateParser>) => prisma.task.create({ data: input }), taskCreateParser),
+  "get": query(prisma.task.findMany),
+  "delete": mutation((input: z.infer<typeof taskDeleteParser>) => prisma.task.delete({
     where: input,
   }), taskDeleteParser),
-  mutation("put", (input: z.infer<typeof taskUpdateParser>) => prisma.task.update({
+  "put": mutation((input: z.infer<typeof taskUpdateParser>) => prisma.task.update({
     where: { id: input.id },
     data: input
   }), taskUpdateParser),
-  query("send-completed-notifications", (input: any) => {
+  "send-completed-notifications": query((input: any) => {
     console.log({ hello: "world" })
   }),
-  mutation("clear-completed", async () => {
+  "clear-completed": mutation(async () => {
     await prisma.task.deleteMany({
       where: { completed: true },
     })
     prisma.task.findMany()
   })
-]
-
-const rules: Record<string, Action[]> = { tasks }
-
-export const findAction = (namespace: string, actionName: string) => {
-  if (!rules[namespace])
-    return undefined
-
-  return find(rules[namespace], (r: Action) => (r.name === actionName))
 }
+
+export type DomainActions = Record<string, Actions>
+
+const rules: DomainActions = { tasks }
+
+const findActionInDomain = (rules: DomainActions) => (namespace: string, actionName: string) =>
+  rules[namespace] && rules[namespace][actionName]
+
+export const findAction = findActionInDomain(rules)
 
 export default rules

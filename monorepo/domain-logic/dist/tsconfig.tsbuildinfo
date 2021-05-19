@@ -612,8 +612,8 @@
         "affectsGlobalScope": false
       },
       "../index.ts": {
-        "version": "448b7c433daa0d6bd8b59572dad9544cd334f9c3e3eef2212d84603d6cda1267",
-        "signature": "697d382930f6ba7ff8aa1b68ec3a5cb69f253dad4c6e204c0464d8940f5220d9",
+        "version": "1037db502607fe7a84e78ee36453c3ca84ff1166f48c4d192c50f01206079caf",
+        "signature": "b350d11d01b89d7ef4605820bb26d431c1e05f9399d66cc6362b8ed11b0c34fb",
         "affectsGlobalScope": false
       },
       "../resources/task.ts": {
