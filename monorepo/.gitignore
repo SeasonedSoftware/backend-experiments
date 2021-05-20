@@ -9,12 +9,11 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# compiled stuff
+.next
 /out/
-
-# production
 /build
+dist/
 
 # misc
 .DS_Store
@@ -34,6 +33,5 @@ yarn-error.log*
 
 # vercel
 .vercel
-.next
 
 *.db
