@@ -5,7 +5,7 @@
     "schema": "../domain-logic/db/schema.prisma"
   },
   "scripts": {
-    "daemon": "tsc || node dist/server.js",
+    "dev": "tsc || node dist/server.js",
     "build": "tsc"
   },
   "dependencies": {

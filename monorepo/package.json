@@ -9,8 +9,9 @@
     "jobs"
   ],
   "scripts": {
-    "dev": "cd ui && yarn dx:next",
-    "jobs": "cd jobs && yarn daemon"
+    "dev:ui": "yarn workspace ui dev",
+    "dev:jobs": "yarn workspace jobs dev",
+    "dev:domain": "yarn workspace domain-logic dev"
   },
   "author": "",
   "license": "ISC",
