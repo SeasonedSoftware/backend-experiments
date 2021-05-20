@@ -1,12 +1,15 @@
 {
   "name": "jobs",
   "version": "1.0.0",
+  "private": true,
+  "license": "ISC",
   "prisma": {
     "schema": "../domain-logic/db/schema.prisma"
   },
   "scripts": {
+    "build": "tsc",
     "dev": "tsc || node dist/server.js",
-    "build": "tsc"
+    "lint:types": "tsc --project tsconfig.json --noEmit"
   },
   "dependencies": {
     "domain-logic": "link:../domain-logic",

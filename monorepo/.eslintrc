@@ -4,7 +4,7 @@
     "node": true,
     "jest": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
     "allowImportExportEverywhere": true
@@ -14,11 +14,12 @@
     "**/.next/*"
   ],
   "extends": ["airbnb", "prettier"],
-  "plugins": ["react", "prettier"],
+  "plugins": ["@typescript-eslint", "react", "prettier"],
   "rules": {
     "arrow-parens": [ 0, "as-needed" ],
     "camelcase": "warn",
     "class-methods-use-this": 0,
+    "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "react/display-name": 0,
     "react/require-default-props": 0,
     "react/jsx-closing-bracket-location": [ "warn" ],

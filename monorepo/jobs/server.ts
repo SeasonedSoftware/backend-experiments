@@ -3,6 +3,7 @@ import fastify from 'fastify'
 import fastifyPostgres from 'fastify-postgres'
 import createSubscriber from 'pg-listen'
 import rules from 'domain-logic'
+import { AddressInfo } from 'net'
 
 console.log('TEST', rules)
 
@@ -39,7 +40,7 @@ server.register(fastifyPostgres, {
 })
 
 // Declare a route
-server.get('/health', async (request, reply) => {
+server.get('/health', async (_request, _reply) => {
   const client = await server.pg.connect()
   const { rows } = await client.query('SELECT version()', [])
   client.release()
@@ -50,7 +51,9 @@ server.get('/health', async (request, reply) => {
 const start = async () => {
   try {
     await server.listen(3001)
-    server.log.info(`server listening on ${server.server.address().port}`)
+    server.log.info(
+      `server listening on ${(server.server.address() as AddressInfo)?.port}`,
+    )
   } catch (err) {
     server.log.error(err)
     process.exit(1)

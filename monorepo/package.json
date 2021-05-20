@@ -9,17 +9,24 @@
     "jobs"
   ],
   "scripts": {
-    "dev:ui": "yarn workspace ui dev",
-    "dev:jobs": "yarn workspace jobs dev",
-    "dev:domain": "yarn workspace domain-logic dev",
+    "dev:domain": "yarn w:domain dev",
+    "dev:jobs": "yarn w:jobs dev",
+    "dev:ui": "yarn w:ui dev",
+    "lint": "yarn lint:types && yarn lint:eslint && yarn lint:prettier",
     "lint:eslint": "eslint ./",
-    "lint:prettier": "prettier --check \"{**/*.js,**/*.jsx,**/*.ts,**/*.tsx}\""
+    "lint:prettier": "prettier --check \"{**/*.js,**/*.jsx,**/*.ts,**/*.tsx}\"",
+    "lint:types": "yarn workspaces run lint:types",
+    "w:domain": "yarn workspace domain-logic",
+    "w:jobs": "yarn workspace jobs",
+    "w:ui": "yarn workspace ui"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "15.0.2",
     "@types/react": "17.0.5",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
+    "@typescript-eslint/parser": "^4.24.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.26.0",
     "eslint-config-airbnb": "^18.2.1",

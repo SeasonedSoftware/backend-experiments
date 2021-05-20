@@ -2,16 +2,18 @@
   "name": "domain-logic",
   "version": "1.0.0",
   "private": true,
+  "license": "ISC",
   "main": "dist/index.js",
   "prisma": {
     "schema": "db/schema.prisma"
   },
   "scripts": {
-    "dev": "prisma generate && yarn migrate && tsc --watch",
     "build": "prisma generate && yarn migrate && tsc",
-    "studio": "prisma studio",
+    "dev": "prisma generate && yarn migrate && tsc --watch",
+    "lint:types": "tsc --project tsconfig.json --noEmit",
     "migrate-dev": "prisma migrate dev --preview-feature",
     "migrate": "prisma migrate deploy --preview-feature",
+    "studio": "prisma studio",
     "test": "jest"
   },
   "dependencies": {
