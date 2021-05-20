@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "domain-logic": "./domain-logic",
+    "domain-logic": "link:../domain-logic",
     "fastify": "^3.9.2",
     "fastify-postgres": "^3.3.0",
     "pg": "^8.5.1",
