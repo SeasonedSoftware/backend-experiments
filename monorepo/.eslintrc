@@ -19,6 +19,7 @@
     "arrow-parens": [ 0, "as-needed" ],
     "camelcase": "warn",
     "class-methods-use-this": 0,
+    "import/no-extraneous-dependencies": 0,
     "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
     "react/display-name": 0,
     "react/require-default-props": 0,

@@ -1,24 +1,24 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { Action, findAction } from 'domain-logic'
 import defaults from 'lodash/defaults'
 import isNil from 'lodash/isNil'
 import { either } from 'fp-ts'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const makeHandler =
   ({ mutation, parser, action }: Action) =>
-    async (input: any, req: NextApiRequest, res: NextApiResponse) => {
-      if (req.method === 'GET' && mutation) {
-        res.setHeader('Allow', 'POST, PATCH, PUT, DELETE')
-        return res.status(405).end()
-      }
-      const parsedInput = parser && parser.parse(input)
-      const taskResult = await action(parsedInput)
-      console.log({ taskResult })
-      return either.match(
-        (errors) => res.status(400).json(errors),
-        (data) => res.status(200).json(data),
-      )(taskResult)
+  async (input: any, req: NextApiRequest, res: NextApiResponse) => {
+    if (req.method === 'GET' && mutation) {
+      res.setHeader('Allow', 'POST, PATCH, PUT, DELETE')
+      return res.status(405).end()
     }
+    const parsedInput = parser && parser.parse(input)
+    const taskResult = await action(parsedInput)
+    console.log({ taskResult })
+    return either.match(
+      (errors) => res.status(400).json(errors),
+      (data) => res.status(200).json(data),
+    )(taskResult)
+  }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const [namespace, requestedAction] = req.query.actionPath as string[]
@@ -28,19 +28,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (isNil(maybeResolvedAction)) {
     return res.status(404).end()
-  } else {
-    const resolvedAction: Action = maybeResolvedAction
-    const id =
-      isNil(maybeRequestedAction) && requestedAction ? requestedAction : null
-
-    let params = { id }
-    console.log({
-      resolvedAction,
-      namespace,
-      requestedAction,
-      method: req.method!.toLowerCase(),
-      id,
-    })
-    return makeHandler(resolvedAction)(defaults(params, req.body), req, res)
   }
+  const resolvedAction: Action = maybeResolvedAction
+  const id =
+    isNil(maybeRequestedAction) && requestedAction ? requestedAction : null
+
+  const params = { id }
+  console.log({
+    resolvedAction,
+    namespace,
+    requestedAction,
+    method: req.method!.toLowerCase(),
+    id,
+  })
+  return makeHandler(resolvedAction)(defaults(params, req.body), req, res)
 }
