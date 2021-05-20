@@ -1,15 +1,16 @@
 import type { ZodTypeAny } from 'zod';
+declare type Errors = Record<string, string>;
 declare type Result = {
     success: true;
     data: any;
 } | {
     success: false;
-    errors: any;
+    errors: Errors;
 };
 export declare type ActionResult = Result | Promise<Result>;
-export declare const onResult: (onSuccess: (r: any) => any, onError: (r: any) => any, r: Result) => any;
+export declare const onResult: (onError: (r: any) => any, onSuccess: (r: any) => any, r: Result) => any;
 export declare const success: (r: any) => Result;
-export declare const error: (r: any) => Result;
+export declare const error: (r: Errors) => Result;
 export declare type Action = {
     mutation: boolean;
     parser?: ZodTypeAny;

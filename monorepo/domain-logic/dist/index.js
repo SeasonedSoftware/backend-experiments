@@ -11,10 +11,7 @@ const taskUpdateParser = zod_1.z.object({
     text: zod_1.z.string().optional(),
     completed: zod_1.z.boolean().optional(),
 });
-const onResult = (onSuccess, onError, r) => {
-    console.log({ r });
-    return r.success ? onSuccess(r.data) : onError(r.errors);
-};
+const onResult = (onError, onSuccess, r) => r.success ? onSuccess(r.data) : onError(r.errors);
 exports.onResult = onResult;
 const success = (r) => ({ success: true, data: r });
 exports.success = success;
@@ -52,6 +49,6 @@ exports.tasks = {
     }),
 };
 const rules = { tasks: exports.tasks };
-const findActionInDomain = (rules) => (namespace, actionName) => (rules[namespace] && rules[namespace][actionName]);
+const findActionInDomain = (rules) => (namespace, actionName) => rules[namespace]?.[actionName];
 exports.findAction = findActionInDomain(rules);
 exports.default = rules;

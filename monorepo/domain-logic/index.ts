@@ -12,21 +12,20 @@ const taskUpdateParser = z.object({
   completed: z.boolean().optional(),
 })
 
-type Result = { success: true; data: any } | { success: false; errors: any }
+type Errors = Record<string, string>
+type Result = { success: true; data: any } | { success: false; errors: Errors }
 
 export type ActionResult = Result | Promise<Result>
 
 export const onResult = (
-  onSuccess: (r: any) => any,
   onError: (r: any) => any,
+  onSuccess: (r: any) => any,
   r: Result,
-) => {
-  console.log({ r })
-  return r.success ? onSuccess(r.data) : onError(r.errors)
-}
+) =>
+  r.success ? onSuccess(r.data) : onError(r.errors)
 
 export const success = (r: any) => ({ success: true, data: r } as Result)
-export const error = (r: any) => ({ success: false, errors: r } as Result)
+export const error = (r: Errors) => ({ success: false, errors: r } as Result)
 
 export type Action = {
   mutation: boolean
@@ -95,7 +94,7 @@ const rules: DomainActions = { tasks }
 
 const findActionInDomain =
   (rules: DomainActions) => (namespace: string, actionName: string) =>
-    (rules[namespace] && rules[namespace][actionName]) as Action | undefined
+    rules[namespace]?.[actionName] as Action | undefined
 
 export const findAction = findActionInDomain(rules)
 
