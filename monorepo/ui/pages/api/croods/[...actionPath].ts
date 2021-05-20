@@ -1,24 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Action, findAction, onResult } from 'domain-logic'
+import { Action, findAction } from 'domain-logic'
 import defaults from 'lodash/defaults'
 import isNil from 'lodash/isNil'
+import { either } from 'fp-ts'
 
 const makeHandler =
   ({ mutation, parser, action }: Action) =>
-  async (input: any, req: NextApiRequest, res: NextApiResponse) => {
-    if (req.method === 'GET' && mutation) {
-      res.setHeader('Allow', 'POST, PATCH, PUT, DELETE')
-      return res.status(405).end()
+    async (input: any, req: NextApiRequest, res: NextApiResponse) => {
+      if (req.method === 'GET' && mutation) {
+        res.setHeader('Allow', 'POST, PATCH, PUT, DELETE')
+        return res.status(405).end()
+      }
+      const parsedInput = parser && parser.parse(input)
+      const taskResult = await action(parsedInput)
+      console.log({ taskResult })
+      return either.match(
+        (errors) => res.status(400).json(errors),
+        (data) => res.status(200).json(data),
+      )(taskResult)
     }
-    const parsedInput = parser && parser.parse(input)
-    const taskResult = await action(parsedInput)
-    console.log({ taskResult })
-    return onResult(
-      (data) => res.status(200).json(data),
-      (errors) => res.status(400).json(errors),
-      taskResult,
-    )
-  }
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const [namespace, requestedAction] = req.query.actionPath as string[]

@@ -1,15 +1,12 @@
 import type { ZodTypeAny } from 'zod';
-declare type Result = {
-    success: true;
-    data: any;
-} | {
-    success: false;
-    errors: any;
+import { either } from 'fp-ts';
+declare type Error = {
+    errors: Record<string, string>;
 };
+declare type Result = either.Either<Error, any>;
 export declare type ActionResult = Result | Promise<Result>;
-export declare const onResult: (onSuccess: (r: any) => any, onError: (r: any) => any, r: Result) => any;
-export declare const success: (r: any) => Result;
-export declare const error: (r: any) => Result;
+export declare const success: <E = never, A = never>(a: A) => either.Either<E, A>;
+export declare const error: <E = never, A = never>(e: E) => either.Either<E, A>;
 export declare type Action = {
     mutation: boolean;
     parser?: ZodTypeAny;

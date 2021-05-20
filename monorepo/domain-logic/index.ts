@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import type { ZodTypeAny } from 'zod'
 import { PrismaClient } from '@prisma/client'
+import { either } from 'fp-ts'
 
 const prisma = new PrismaClient()
 
@@ -12,21 +13,13 @@ const taskUpdateParser = z.object({
   completed: z.boolean().optional(),
 })
 
-type Result = { success: true; data: any } | { success: false; errors: any }
+type Error = { errors: Record<string, string> }
+type Result = either.Either<Error, any>
 
 export type ActionResult = Result | Promise<Result>
 
-export const onResult = (
-  onSuccess: (r: any) => any,
-  onError: (r: any) => any,
-  r: Result,
-) => {
-  console.log({ r })
-  return r.success ? onSuccess(r.data) : onError(r.errors)
-}
-
-export const success = (r: any) => ({ success: true, data: r } as Result)
-export const error = (r: any) => ({ success: false, errors: r } as Result)
+export const success = either.right
+export const error = either.left
 
 export type Action = {
   mutation: boolean
