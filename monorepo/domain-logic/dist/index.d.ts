@@ -11,7 +11,9 @@ export declare type ActionResult = Result | Promise<Result>;
 export declare const onResult: (onError: (r: any) => any, onSuccess: (r: any) => any, r: Result) => any;
 export declare const success: (r: any) => Result;
 export declare const error: (r: Errors) => Result;
+export declare type Transport = 'http' | 'websocket' | 'terminal';
 export declare type Action = {
+    transport: Transport;
     mutation: boolean;
     parser?: ZodTypeAny;
     action: (input: any) => ActionResult;

@@ -17,31 +17,33 @@ const success = (r) => ({ success: true, data: r });
 exports.success = success;
 const error = (r) => ({ success: false, errors: r });
 exports.error = error;
-const query = (action, parser) => ({
+const httpQuery = (action, parser) => ({
+    transport: 'http',
     mutation: false,
     parser,
     action,
 });
-const mutation = (action, parser) => ({
+const httpMutation = (action, parser) => ({
+    transport: 'http',
     mutation: true,
     parser,
     action,
 });
 exports.tasks = {
-    post: mutation(async (input) => exports.success(await prisma.task.create({ data: input })), taskCreateParser),
-    get: query(async () => exports.success(await prisma.task.findMany())),
-    delete: mutation(async (input) => exports.success(await prisma.task.delete({
+    post: httpMutation(async (input) => exports.success(await prisma.task.create({ data: input })), taskCreateParser),
+    get: httpQuery(async () => exports.success(await prisma.task.findMany())),
+    delete: httpMutation(async (input) => exports.success(await prisma.task.delete({
         where: input,
     })), taskDeleteParser),
-    put: mutation(async (input) => exports.success(await prisma.task.update({
+    put: httpMutation(async (input) => exports.success(await prisma.task.update({
         where: { id: input.id },
         data: input,
     })), taskUpdateParser),
-    'send-completed-notifications': query((input) => {
-        console.log({ hello: 'world' });
+    'send-completed-notifications': httpQuery((input) => {
+        console.log({ hello: 'world', superExpensiveOperation: true });
         return exports.success(null);
     }),
-    'clear-completed': mutation(async () => {
+    'clear-completed': httpMutation(async () => {
         await prisma.task.deleteMany({
             where: { completed: true },
         });

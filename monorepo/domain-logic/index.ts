@@ -27,7 +27,10 @@ export const onResult = (
 export const success = (r: any) => ({ success: true, data: r } as Result)
 export const error = (r: Errors) => ({ success: false, errors: r } as Result)
 
+export type Transport = 'http' | 'websocket' | 'terminal'
+
 export type Action = {
+  transport: Transport
   mutation: boolean
   parser?: ZodTypeAny
   action: (input: any) => ActionResult
@@ -35,29 +38,30 @@ export type Action = {
 
 export type Actions = Record<string, Action>
 
-const query = (action: (input: any) => ActionResult, parser?: ZodTypeAny) => ({
-  mutation: false,
-  parser,
-  action,
-})
+const httpQuery: (action: (input: any) => ActionResult, parser?: ZodTypeAny) => Action =
+  (action, parser) => ({
+    transport: 'http',
+    mutation: false,
+    parser,
+    action,
+  })
 
-const mutation = (
-  action: (input: any) => ActionResult,
-  parser?: ZodTypeAny,
-) => ({
-  mutation: true,
-  parser,
-  action,
-})
+const httpMutation: (action: (input: any) => ActionResult, parser?: ZodTypeAny) => Action =
+  (action, parser) => ({
+    transport: 'http',
+    mutation: true,
+    parser,
+    action,
+  })
 
 export const tasks: Actions = {
-  post: mutation(
+  post: httpMutation(
     async (input: z.infer<typeof taskCreateParser>) =>
       success(await prisma.task.create({ data: input })),
     taskCreateParser,
   ),
-  get: query(async () => success(await prisma.task.findMany())),
-  delete: mutation(
+  get: httpQuery(async () => success(await prisma.task.findMany())),
+  delete: httpMutation(
     async (input: z.infer<typeof taskDeleteParser>) =>
       success(
         await prisma.task.delete({
@@ -66,7 +70,7 @@ export const tasks: Actions = {
       ),
     taskDeleteParser,
   ),
-  put: mutation(
+  put: httpMutation(
     async (input: z.infer<typeof taskUpdateParser>) =>
       success(
         await prisma.task.update({
@@ -76,11 +80,11 @@ export const tasks: Actions = {
       ),
     taskUpdateParser,
   ),
-  'send-completed-notifications': query((input: any) => {
-    console.log({ hello: 'world' })
+  'send-completed-notifications': httpQuery((input: any) => {
+    console.log({ hello: 'world', superExpensiveOperation: true })
     return success(null)
   }),
-  'clear-completed': mutation(async () => {
+  'clear-completed': httpMutation(async () => {
     await prisma.task.deleteMany({
       where: { completed: true },
     })
